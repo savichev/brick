@@ -4,6 +4,9 @@
 
 #include <gtk/gtk.h>
 
+#include <glib.h>
+#include <gtk/gtkmain.h>
+
 #include "include/cef_app.h"
 #include "include/wrapper/cef_helpers.h"
 #include "brick/window_util.h"
@@ -210,7 +213,8 @@ ClientHandler::Shutdown(bool force) {
     CloseAllBrowsers(true);
   } else if (!InShutdownState()) {
     in_shutdown_state_ = true;
-    shutdown_timer_id_ = gtk_timeout_add(BRICK_SHUTDOWN_TIMEOUT, DoShutdown, this);
+    //shutdown_timer_id_ = gtk_timeout_add(BRICK_SHUTDOWN_TIMEOUT, DoShutdown, this);
+    shutdown_timer_id_ = g_timeout_add(BRICK_SHUTDOWN_TIMEOUT, DoShutdown, this);
     // Send event to JS APP
     SendJSEvent(GetBrowser(), "BXExitApplication");
   }
@@ -223,5 +227,6 @@ ClientHandler::PreventShutdown() {
     return;
 
   in_shutdown_state_ = false;
-  gtk_timeout_remove(shutdown_timer_id_);
+  //gtk_timeout_remove(shutdown_timer_id_);
+  g_source_remove(shutdown_timer_id_);
 }

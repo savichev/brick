@@ -65,17 +65,23 @@ BrickIndicator::Init() {
   menu = gtk_menu_new();
   GtkWidget * show_item = gtk_menu_item_new_with_label("Show/Hide");
   g_signal_connect(G_OBJECT(show_item), "activate", G_CALLBACK(status_icon_click), NULL);
-  gtk_menu_append(GTK_MENU(menu), show_item);
-  gtk_menu_append(GTK_MENU(menu), gtk_separator_menu_item_new());
+  gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(menu)), (show_item));
+  //gtk_menu_append(GTK_MENU(menu), show_item);
+  gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(menu)), (gtk_separator_menu_item_new()));
+  //gtk_menu_append(GTK_MENU(menu), gtk_separator_menu_item_new());
   accounts_menu = gtk_menu_item_new_with_label("Accounts");
-  gtk_menu_append(GTK_MENU(menu), accounts_menu);
-  gtk_menu_append(GTK_MENU(menu), gtk_separator_menu_item_new());
+  gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(menu)), (accounts_menu));
+  //gtk_menu_append(GTK_MENU(menu), accounts_menu);
+  gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(menu)), (gtk_separator_menu_item_new()));
+  //gtk_menu_append(GTK_MENU(menu), gtk_separator_menu_item_new());
   GtkWidget * about_item = gtk_menu_item_new_with_label("About");
   g_signal_connect(G_OBJECT(about_item), "activate", G_CALLBACK(menu_about), NULL);
-  gtk_menu_append(GTK_MENU(menu), about_item);
+  gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(menu)), (about_item));
+  //gtk_menu_append(GTK_MENU(menu), about_item);
   GtkWidget * quit_item = gtk_menu_item_new_with_label("Quit");
   g_signal_connect(G_OBJECT(quit_item), "activate", G_CALLBACK(menu_quit), NULL);
-  gtk_menu_append(GTK_MENU(menu), quit_item);
+  gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(menu)), (quit_item));
+  //gtk_menu_append(GTK_MENU(menu), quit_item);
 
   if (AppIndicatorIcon::CouldOpen()) {
     CefRefPtr<AppIndicatorIcon> icon(new AppIndicatorIcon(icons_folder_));
@@ -142,8 +148,10 @@ BrickIndicator::UpdateAccountsMenu() {
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(accounts_menu), submenu);
   GtkWidget *manage_accounts_item = gtk_menu_item_new_with_label("Manage Accounts");
   g_signal_connect(G_OBJECT(manage_accounts_item), "activate", G_CALLBACK(menu_manage_accounts), NULL);
-  gtk_menu_append(GTK_MENU(submenu), manage_accounts_item);
-  gtk_menu_append(GTK_MENU(submenu), gtk_separator_menu_item_new());
+  gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(submenu)), (manage_accounts_item));
+  //gtk_menu_append(GTK_MENU(submenu), manage_accounts_item);
+  gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(submenu)), (gtk_separator_menu_item_new()));
+  //gtk_menu_append(GTK_MENU(submenu), gtk_separator_menu_item_new());
   AccountManager::accounts_map *accounts = ClientHandler::GetInstance()->GetAccountManager()->GetAccounts();
   CefRefPtr<Account> current_account = ClientHandler::GetInstance()->GetAccountManager()->GetCurrentAccount();
   AccountManager::accounts_map::iterator it = accounts->begin();
@@ -159,7 +167,8 @@ BrickIndicator::UpdateAccountsMenu() {
       );
     }
 
-    gtk_menu_append(GTK_MENU(submenu), account_item);
+    gtk_menu_shell_append ((GtkMenuShell *)(GTK_MENU(menu)), (account_item));
+    //gtk_menu_append(GTK_MENU(submenu), account_item);
     g_object_set_data(G_OBJECT(account_item), "account_id", GINT_TO_POINTER((*it).first));
     g_signal_connect(G_OBJECT(account_item), "activate", G_CALLBACK(menu_change_account), this);
   }

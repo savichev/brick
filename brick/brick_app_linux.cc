@@ -4,6 +4,7 @@
 
 #include <unistd.h>
 #include <gtk/gtk.h>
+#include <glib.h>
 #include <sys/file.h>
 #include <sys/stat.h>
 #include <X11/Xlib.h>
@@ -283,7 +284,7 @@ int main(int argc, char* argv[]) {
   window_util::InitHooks();
 
   if (app_settings.auto_away) {
-    gtk_timeout_add(kIdleCheckInterval, CheckUserIdle, NULL);
+    g_timeout_add(kIdleCheckInterval, CheckUserIdle, NULL);
   }
 
   // Set default windows icon. Important to do this before any GTK window created!

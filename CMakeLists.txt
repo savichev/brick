@@ -196,7 +196,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # Allow C++ programs to use stdint.h macros specified in the C99 standard that
 # aren't in the C++ standard (e.g. UINT8_MAX, INT64_MIN, etc).
-add_definitions(-D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS)
+add_definitions(-D__STDC_CONSTANT_MACROS 
+		-D__STDC_FORMAT_MACROS
+		-DGTK_DISABLE_DEPRECATED
+)
 
 
 #
@@ -221,6 +224,7 @@ if(OS_LINUX)
   set(CEF_COMPILER_FLAGS          "-fno-strict-aliasing -fPIC -fstack-protector -funwind-tables -fvisibility=hidden --param=ssp-buffer-size=4 -pipe -pthread -Wall -Werror -Wno-missing-field-initializers -Wno-unused-parameter")
   # -std=c99                        = Use the C99 language standard
   set(CEF_C_COMPILER_FLAGS        "-std=c99")
+  #set(CEF_C_COMPILER_FLAGS        "-std=c++11")
   # -fno-rtti                       = Disable real-time type information
   # -fno-threadsafe-statics         = Don't generate thread-safe statics
   # -fvisibility-inlines-hidden     = Give hidden visibility to inlined class member functions
